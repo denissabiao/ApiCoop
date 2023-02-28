@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Especialidade as ResourcesEspecialidade;
+use App\Models\Especialidade;
 use Illuminate\Http\Request;
 
 class EspecialidadeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $especialidadeService;
+
     public function index()
     {
-       return 1;
+        return ResourcesEspecialidade::collection(Especialidade::orderBy('especialidade')->get());
     }
 
     /**
