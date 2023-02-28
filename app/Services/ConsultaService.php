@@ -6,7 +6,7 @@ use App\Http\Resources\Consulta as ResourcesConsulta;
 use App\Models\Consulta;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class ConsultaService extends Model
 {
@@ -15,7 +15,7 @@ class ConsultaService extends Model
         return Carbon::create($data)->addDays($limite)->format('Y-m-d');
     }
 
-    public function getAppointmentMedic(Request $request, int $data_limite)
+    public function allAppointmentByMedic(Request $request, string $data_limite)
     {
         return ResourcesConsulta::collection(Consulta::whereBetween('data', array($request->query('data'), $data_limite))
             ->where('idmedico', $request->query('idmedico'))
