@@ -21,12 +21,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
 Route::prefix('consulta')->group(function () {
     Route::get('/especialidade', [ConsultaController::class, 'buscaConsultaPelaEspecialidadeEData']);
     Route::get('/medico', [ConsultaController::class, 'getAppointmentByMedic']);
-})->apiResource('consulta', ConsultaController::class)->only('show');
+})->apiResource('consulta', ConsultaController::class)->only('show','index');
 
 Route::prefix('medico')->group(function () {
     Route::get('/especialidade/{especialidade}', [MedicoController::class, 'buscaMedicoPelaEspecialidade']);
