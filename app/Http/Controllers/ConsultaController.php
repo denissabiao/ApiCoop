@@ -68,6 +68,8 @@ class ConsultaController extends Controller
 
         $consulta_medico = $this->consultaService->allAppointmentByMedic($request, $data_limite);
 
+        $consulta_medico= $this->consultaService->mapAppointmentMedic($consulta_medico);
+
         return $consulta_medico;
     }
 
