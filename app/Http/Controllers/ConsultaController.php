@@ -66,7 +66,7 @@ class ConsultaController extends Controller
     {
         $data_limite = $this->consultaService::getAppointmentDateLimit($request->query('data'), 5);
 
-        $consulta_medico = $this->consultaService->getAppointmentMedic($request, $data_limite);
+        $consulta_medico = $this->consultaService->allAppointmentByMedic($request, $data_limite);
 
         return $consulta_medico;
     }
