@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Convenio as ResourcesConvenio;
+use App\Models\Convenio;
 use Illuminate\Http\Request;
 
 class ConvenioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        return ResourcesConvenio::collection(Convenio::orderBy('nome')->get());
     }
 
     /**
