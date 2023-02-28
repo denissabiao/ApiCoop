@@ -6,6 +6,7 @@ use App\Http\Controllers\{
     LoginController,
     MedicoController
 };
+use App\Http\Controllers\ConvenioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Route::prefix('consulta')->group(function () {
     Route::get('/especialidade', [ConsultaController::class, 'buscaConsultaPelaEspecialidadeEData']);
     Route::get('/medico', [ConsultaController::class, 'getAppointmentByMedic']);
@@ -30,11 +33,19 @@ Route::prefix('medico')->group(function () {
 })->apiResource('medico', MedicoController::class)->only('show', 'index'); //busca automaticamente os metodos padroes
 
 Route::prefix('especialidade')->group(function () {
-
+    return 1;
 })->apiResource('especialidade', EspecialidadeController::class)->only('index');
+
+Route::prefix('convenio')->group(function () {
+    return 1;
+})->apiResource('convenio', ConvenioController::class)->only('index');
 
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/', function () {
+    return response()->json(['status' => true]);
 });
