@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -54,7 +53,7 @@ class LoginController extends Controller
 
         $user = User::find(auth()->user()->id);
         $token = $user->createToken('ApiToken');
-
+        
         return response()
             ->json(
                 [
