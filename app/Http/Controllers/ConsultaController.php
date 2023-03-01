@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class ConsultaController extends Controller
 {
-
     protected $consultaService;
 
     public function __construct(ConsultaService $consultaServicee)
@@ -61,58 +60,15 @@ class ConsultaController extends Controller
         return $consultas_formated;
     }
 
-
     public function getAppointmentByMedic(Request $request)
     {
         $data_limite = $this->consultaService::getAppointmentDateLimit($request->query('data'), 5);
 
         $consulta_medico = $this->consultaService->allAppointmentByMedic($request, $data_limite);
 
-        $consulta_medico= $this->consultaService->mapAppointmentMedic($consulta_medico);
+        $consulta_medico = $this->consultaService->mapAppointmentMedic($consulta_medico);
 
         return $consulta_medico;
     }
 
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-
-    public function show(string $id)
-    {
-        return new ResourcesConsulta(Consulta::find($id));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

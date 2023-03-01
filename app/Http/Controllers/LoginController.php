@@ -16,10 +16,9 @@ class LoginController extends Controller
     {
         $this->userService = $userService;
     }
-    
+
     public function login(Request $request)
     {
-
         $messages = [
             'email.required' => 'Email é um campo obrigatório.',
             'password.required' => 'Senha é um campo obrigatório.',
@@ -58,10 +57,8 @@ class LoginController extends Controller
                 );
         }
 
-
         $user = User::find(auth()->user()->id);
         $token = $this->userService::getCookie($user->createToken('ApiToken')->plainTextToken);
-
 
         return response()->json([
             'status' => true,
@@ -69,7 +66,5 @@ class LoginController extends Controller
         ], 200)
             ->withCookie($token);
     }
-
-
 
 }

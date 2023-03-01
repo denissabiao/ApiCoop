@@ -27,25 +27,9 @@ class MedicoController extends Controller
         return ResourcesMedico::collection(Medico::where('especialidade', $especialidade)->orderBy('medico')->get());
     }
 
-
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show(string $id)
     {
         return new ResourcesMedico(Medico::findOrFail($id));
     }
 
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        return 1;
-    }
 }
