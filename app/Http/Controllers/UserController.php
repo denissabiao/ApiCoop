@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateUser;
 use App\Http\Resources\User as ResourcesUser;
 use App\Models\User;
 use App\Services\UserService;
@@ -21,37 +22,9 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function store(Request $request)
+    public function store(StoreUpdateUser $request)
     {
-        $messages = [
-            'Cpf.required' => 'Cpf é um campo obrigatório.',
-            'email.required' => 'Email é um campo obrigatório.',
-            'password.required' => 'Senha é um campo obrigatório.',
-            'data_nascimento.required' => 'Data Nascimento é um campo obrigatório.',
-            'telefone.required' => 'Telefone é um campo obrigatório.'
-        ];
-
-        $validateUser = Validator::make(
-            $request->all(),
-            [
-                'cpf' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required',
-                'data_nascimento' => 'required|date',
-                'telefone' => 'required'
-            ],
-            $messages
-        );
-
-        if ($validateUser->fails()) {
-            return response()->json(
-                [
-                    'status' => false,
-                    'error' => 'Erro de validação.',
-                    'message' => $validateUser->errors()
-                ]
-            );
-        }
+        $request->validated();
 
         try {
             $user = new User;
@@ -66,11 +39,13 @@ class UserController extends Controller
                 'message' => 'Usuário cadastrado com sucesso'
             ], 200)
                 ->withCookie($token);
-        } catch (\Throwable $th) {
-            //throw $th;
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'error' => 'Erro de validação.',
+                'message' => $e->getMessage()
+            ]);
         }
-
-
 
     }
 
