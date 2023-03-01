@@ -76,12 +76,10 @@ class UserController extends Controller
 
     public function show(Request $request)
     {
-        $token = $request->header('Authorization');
         $user = new ResourcesUser(Auth::guard('sanctum')->user());
 
         return response()->json([
             'status' => true,
-            'token' => $token,
             'data' => $user
         ], 200);
     }
@@ -94,12 +92,10 @@ class UserController extends Controller
             $user->fill($request->all());
             $user->password = Hash::make($request->password);
             $user->save();
-            $token = $request->header('Authorization');
 
             return response()->json([
                 'status' => true,
-                'message' => 'Usuário cadastrado com sucesso',
-                'token' => $token
+                'message' => 'Usuário cadastrado com sucesso'
             ], 200);
         } catch (\Throwable $th) {
             //throw $th;
