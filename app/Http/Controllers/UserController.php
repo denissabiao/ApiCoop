@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\User as ResourcesUser;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Cookie;
 
 class UserController extends Controller
 {
 
-    public function index()
-    {
+    protected $userService;
 
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
     }
 
     /**
@@ -34,7 +38,7 @@ class UserController extends Controller
             $request->all(),
             [
                 'cpf' => 'required',
-                'email' => 'required|email',
+                'email' => 'required|email|unique:users,email',
                 'password' => 'required',
                 'data_nascimento' => 'required|date',
                 'telefone' => 'required'
@@ -58,13 +62,13 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            $token = $user->createToken('token_access')->plainTextToken;
+            $token = $this->userService::getCookie($user->createToken('ApiToken')->plainTextToken);
 
             return response()->json([
                 'status' => true,
-                'message' => 'Usuário cadastrado com sucesso',
-                'token' => $token
-            ], 200);
+                'message' => 'Usuário cadastrado com sucesso'
+            ], 200)
+                ->withCookie($token);
         } catch (\Throwable $th) {
             //throw $th;
         }

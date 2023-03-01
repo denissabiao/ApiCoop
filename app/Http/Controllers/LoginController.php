@@ -4,11 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Services\UserService;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
+    protected $userService;
 
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+    
     public function login(Request $request)
     {
 
@@ -52,17 +60,16 @@ class LoginController extends Controller
 
 
         $user = User::find(auth()->user()->id);
-        $token = $user->createToken('ApiToken');
-        
-        return response()
-            ->json(
-                [
-                    'data' => [
-                        'token' => $token->plainTextToken
-                    ]
-                ],
-                200
-            );
+        $token = $this->userService::getCookie($user->createToken('ApiToken')->plainTextToken);
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Login efetuado com sucesso'
+        ], 200)
+            ->withCookie($token);
     }
+
+
 
 }
