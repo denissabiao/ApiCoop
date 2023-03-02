@@ -71,4 +71,9 @@ class ConsultaController extends Controller
         return $consulta_medico;
     }
 
+    public function show(string $id)
+    {
+        return new ResourcesConsulta(Consulta::find($id));
+    }
+
 }
