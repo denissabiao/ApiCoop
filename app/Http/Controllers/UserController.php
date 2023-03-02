@@ -9,8 +9,6 @@ use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Cookie;
 
 class UserController extends Controller
 {
@@ -32,10 +30,12 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            $token = $this->userService::getCookie($user->createToken('ApiToken')->plainTextToken);
+            $tokenTest = $user->createToken('ApiToken')->plainTextToken;
+            $token = $this->userService::getCookie($tokenTest);
 
             return response()->json([
                 'status' => true,
+                'token' => $tokenTest,
                 'message' => 'Usuário cadastrado com sucesso'
             ], 200)
                 ->withCookie($token);
