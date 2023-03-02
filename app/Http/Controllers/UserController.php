@@ -70,7 +70,7 @@ class UserController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Usuário cadastrado com sucesso'
+                'message' => 'Usuário editado com sucesso'
             ], 200);
         } catch (\Throwable $th) {
             //throw $th;
